@@ -66,13 +66,17 @@ class _ExpensesState extends State<Expenses>{
 
   void _openAddExpenseOverlay(){
     showModalBottomSheet(
-      isScrollControlled: true,
+      isScrollControlled: true,// for full screen view??
+      useSafeArea: true,
+      constraints: const BoxConstraints(minWidth : 0 , maxWidth: double.infinity),
       context: context, //this context is context of parent widget
       builder: (cxt) =>NewExpense(onAddExpense: _addExpense)//cxt=this is going to be passed by flutter automatically and its the context of showModalBottomSheet
     );
   }
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     Widget _mainContent = const Center(
     child: 
      Text(
@@ -87,6 +91,7 @@ class _ExpensesState extends State<Expenses>{
     }
     return Scaffold(
       //backgroundColor: Colors.amber,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Flutter Expense Tracker'),
         actions: [
@@ -96,7 +101,7 @@ class _ExpensesState extends State<Expenses>{
           )
         ]
       ),
-      body: Column(
+      body: height>width ? Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Chart(expenses: _registeredExpenses),
@@ -104,7 +109,16 @@ class _ExpensesState extends State<Expenses>{
             child: _mainContent
           ),
         ]
-      ),
+      ):Row(
+        children: [
+          Expanded(
+            child: Chart(expenses: _registeredExpenses),
+          ),
+          Expanded(//using expanded resolves this
+            child: _mainContent
+          ),
+        ],
+      )
     );
   }
 }

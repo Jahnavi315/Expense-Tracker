@@ -1,5 +1,6 @@
-import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
+import 'package:expense_tracker/widgets/expenses.dart';
 
 var kcolorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 180)
@@ -10,7 +11,13 @@ var kDarkColorScheme = ColorScheme.fromSeed(
 );
 //k is used as prefix of variable names to indicate global scope, mostly used for theme variables
 void main(){
-  runApp(
+
+  /*WidgetsFlutterBinding.ensureInitialized();//to ensure app runs as desired here
+  SystemChrome.setPreferredOrientations( [
+    DeviceOrientation.portraitUp,
+  ]).then((value) {//it returns future object so after locking orientation we need to start our app
+    */
+    runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
         useMaterial3: true,
@@ -56,4 +63,6 @@ void main(){
       home: const Expenses(),
     )
   );
+  /*}
+  );*/
 }
